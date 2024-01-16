@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Times New Roman', Times, serif, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
@@ -16,6 +16,46 @@ img {
     height: auto;
     width: 150px; 
     height: 100px; 
+}
+
+section {
+    padding: 2rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+th, td {
+    border: 1px solid #ea9e9e;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #e8baba;
+}
+
+h3 {
+    color: #333;
+    border-bottom: 2px solid #333;
+    margin-top: 2rem;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 footer {
