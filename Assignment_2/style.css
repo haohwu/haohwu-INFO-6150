@@ -66,6 +66,10 @@ section {
     padding: 20px;
 }
 
+audio{
+    display: none;
+}
+
 /* Work Experience and Education Styles */
 .job,
 .education-entry {
