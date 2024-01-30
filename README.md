@@ -54,11 +54,6 @@ This repository contains the source code for a personal portfolio website create
 - **Miscellaneous Tags:**
   - `<footer>`: Represents a footer for a section or a page.
 
-## Usage:
-
-1. Clone the repository: `git clone https://github.com/your-username/portfolio.git`
-2. Open `index.html` in a web browser to view the portfolio.
-
 ## Customization:
 
 Feel free to customize the content, styles, and structure to match your preferences. Add or remove sections as needed.
