@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <title>Feedback</title>
+  <style>
+    label {	float: left;
+			width: 150px;}
+      #container{
+          width: 700px;
+          margin: auto;
+          background-color: beige;
+      } 
+      main{
+          padding: 50px;
+      }
+	  .error{
+		  color: red;
+	  }
+  </style>
+ </head>
+ <body>
+ <div id="container">
+	 
+	 <main>
+	 <h2>Feeback</h2>
+	 <h3>Love something? Hate something? Let us know!</h3>
+		 Note : Fields marked with an asterisk(*) are mandatory
+		 <br><br>
+		 <form id="feedbackForm" method="post" novalidate>
+			<label>Title*:</label>
+			<input type="radio" name="title" id="miss" value="miss" required="required"/>Miss
+			<input type="radio" name="title" id="mr" value="mr" required="required"/>Mr.
+			<input type="radio" name="title" id="mrs" value="mrs" required="required"/>Mrs.
+			<br><br>
+			
+			<label for="firstName">First Name*:</label>
+			<input type="text" name="firstName" id="firstName" placeholder="First Name" />
+			<span id="firstNameError" class="error"></span>	
+			<br><br>
+			
+
+			<label for="lastName">Last Name*:</label>
+			<input type="text" name="lastName" id="lastName" placeholder="Last Name" />
+			<span id="lastNameError" class="error"></span>
+			<br><br>
+			
+
+			<label for="emailId">Email Id*:</label>
+			<input type="text" name="emailId" id="emailId" placeholder="yourname@domain.com" />
+			<span id="emailIdError" class="error"></span>
+			<br><br>
+			
+
+			<label for="phoneNumber">Phone Number*:</label>
+			<input type="text" name="phoneNumber" id="phoneNumber" placeholder="xxx-xxx-xxxx" />
+			<span id="phoneNumberError" class="error"></span>
+			<br><br>
+
+			<label for="address1">Address1*:</label>
+			<input type="text" name="address1" id='address1' placeholder="address" />
+			<span id="address1Error" class="error"></span>
+			<br><br>
+
+			<label for="address2">Address2*:</label>
+			<input type="text" name="address2" id='address1' placeholder="address" />
+			<span id="address2Error" class="error"></span>
+			<br><br>
+			
+            <label for="zipcode">ZipCode*:</label>
+			<input type="text" name="zipcode" id="zipcode" placeholder="xxxxxx" />
+			<span id="zipcodeError" class="error"></span>
+			<br><br>
+             
+            <label for="zipcode">How did you hear*:</label>
+			<input type='checkbox' name="source" value="facebook" /> Facebook
+            <input type='checkbox' name="source" value="google" /> Google
+            <input type='checkbox' name="source" value="yelp" /> Yelp 
+			<br><br> 
+             
+			<label for="selectOption">Select Option:</label>
+            <select id="selectOption" name="selectOption">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+                <option value="option4">Option 4</option>
+                <option value="option5">Option 5</option>
+            </select>
+            <div id="checkboxContainer"></div>
+            <br><br>
+			
+			<label for="comments">Comments*:</label>
+			<textarea name="text" id="comments" placeholder="Your comments" rows="5" cols="25"></textarea>
+			<span id="commentsError" class="error"></span>
+			<br><br>
+			<input id="submitButton" type="Submit">
+			<input type="Reset">
+			<br><br>
+		 </form>
+	 </main>
+	 <div id="tableContainer"></div>
+ </div>
+
+ <script>
+	const selectOption = document.getElementById('selectOption');
+
+    const checkboxContainer = document.getElementById('checkboxContainer');
+
+	const tableContainer = document.getElementById('tableContainer');
+
+	const form = document.getElementById('feedbackForm');
+	form.addEventListener('submit', function(e) {
+    e.preventDefault(); // prevent submit event
+    if (validateform()) {
+        this.submit();
+    	}
+	});
+	const submitButton = document.getElementById('submitButton');
+	form.addEventListener('input', function () {
+        submitButton.disabled = !validateform();
+    });
+
+	selectOption.addEventListener('change', function () {
+        const selectedOption = this.value;
+        checkboxContainer.innerHTML = ''; // Clear previous checkboxes
+        const numCheckboxes = parseInt(selectedOption.replace('option', ''), 10);
+        for (let i = 1; i <= numCheckboxes; i++) {
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = `checkbox${i}`;
+            checkbox.value = `checkbox${i}`;
+            const label = document.createElement('label');
+            label.textContent = `Checkbox ${i}`;
+            checkboxContainer.appendChild(checkbox);
+            checkboxContainer.appendChild(label);
+            checkboxContainer.appendChild(document.createElement('br'));
+        }
+    });
+
+	function validateform() {
+		let isValid = true;
+
+		const titleInputs = document.querySelectorAll('input[name="title"]');
+    	const titleSelected = Array.from(titleInputs).some(input => input.checked);
+    	if (!titleSelected && titleInputs.length > 0) {
+        	isValid = false;
+        	alert('Please enter a title.');
+		}
+
+		const fields = ['firstName', 'lastName', 'emailId', 'phoneNumber', 'zipcode', 'comments'];
+    	fields.forEach(field => {
+        const value = document.getElementById(field).value.trim();
+        const error = document.getElementById(`${field}Error`);
+        if (!value) {
+            isValid = false;
+            error.textContent = `Please enter a ${field}:`;
+        	} else {
+            error.textContent = ''; // Clear any existing error message
+        	}
+    	});
+		//check email validation
+		const email = document.getElementById('emailId').value.trim();
+		const emailError = document.getElementById('emailIdError');
+		const emailRegex = /^[^\s@]+@northeastern\.edu$/;
+		if(!emailRegex.test(email)){ 
+            isValid = false;
+            emailError.textContent = 'Please enter an email:';
+        }
+		else{
+			emailError.textContent = '';
+		}
+
+		const streetAddress1 = document.getElementById('address1').value.trim();
+        const streetAddress1Error = document.getElementById('address1Error');
+        if (!streetAddress1) {
+			isValid = false;
+            streetAddress1Error.textContent = 'Please enter address:';
+        } else {
+			streetAddress1Error.textContent = '';
+        }
+		//check phoneNum validation
+		const phoneNumber = document.getElementById('phoneNumber').value.trim();
+		const phoneNumberError = document.getElementById('phoneNumberError');
+		const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
+		if(!phoneRegex.test(phoneNumber)){
+			isValid = false;
+            phoneNumberError.textContent = 'Please enter a valid phone number:';
+        }
+		else{
+            phoneNumberError.textContent = '';
+        }
+		//check zipcode validation
+		const zipcode = document.getElementById('zipcode').value.trim();
+        const zipcodeError = document.getElementById('zipcodeError');
+		const zipcodeRegex = /^\d{5}$/;
+        if(!zipcodeRegex.test(zipcode)){
+            isValid = false;
+            zipcodeError.textContent = 'Please enter a valid zipcode:';
+        }
+        else{
+            zipcodeError.textContent = '';
+        }
+        return isValid;
+	}
+
+	function createTable() {
+		const table = document.createElement('table');
+        const row = table.insertRow();
+        row.insertCell().textContent = 'First Name';
+        row.insertCell().textContent = 'Comments';
+        const streetAddress1 = document.getElementById('streetAddress1').value.trim();
+        const streetAddress1Cell = row.insertCell();
+        streetAddress1Cell.id = 'streetAddress1Table';
+        streetAddress1Cell.textContent = streetAddress1 || ''; 
+        tableContainer.innerHTML = ''; 
+        tableContainer.appendChild(table);
+    }
+		function clearForm() {
+        form.reset();
+        // Clear any error messages
+        document.querySelectorAll('.error').forEach(error => error.textContent = '');
+    }
+		
+ </script>
+
+ </body>
+</html>
