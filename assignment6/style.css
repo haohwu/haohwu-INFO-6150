@@ -1,0 +1,131 @@
+body, h1, p, ul {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #FF5733;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #ff2d00;
+}
+
+.contact-form {
+  margin-top: 20px;
+  max-width: 500px;
+}
+.contact-form .form-group {
+  margin-bottom: 20px;
+}
+.contact-form .form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.contact-form .form-group input[type=text],
+.contact-form .form-group input[type=email],
+.contact-form .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.contact-form .form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+.contact-form button[type=submit].btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.contact-form button[type=submit].btn:hover {
+  background-color: #0062cc;
+}
+
+.header {
+  background-image: url("images/header.jepg");
+  background-color: #FF5733;
+  color: #fff;
+  padding: 20px;
+}
+.header h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.header p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.main-content {
+  background-color: #2C3E50;
+  color: #fff;
+  padding: 20px;
+}
+.main-content h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #FF5733;
+}
+.main-content p {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+.main-content .highlight {
+  font-weight: bold;
+  color: #3498DB;
+}
+.main-content .box2, .main-content .box1 {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+.main-content .box1 {
+  background-color: #34495E;
+  margin-bottom: 20px;
+}
+.main-content .box2 {
+  background-color: #2980B9;
+  margin-bottom: 20px;
+}
+.main-content .header {
+  text-shadow: 1px 1px 2px #2C3E50;
+}/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,69 @@
+.main-content {
+    background-color: $background-color;
+    color: #fff;
+    padding: 20px;
+  
+    h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: $primary-color;
+    }
+  
+    p {
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+  
+    .highlight {
+      font-weight: bold;
+      color: $secondary-color;
+    }
+
+    .main-content {
+      display: flex; 
+      flex-wrap: wrap; 
+      justify-content: space-between; 
+    }
+    
+    .champion-card {
+      width: calc(25% - 20px); 
+      margin-bottom: 20px; 
+    }
+    
+    .champion-card img {
+      display: block; 
+      width: 100%; 
+      height: auto; 
+    }
+
+  // Placeholder Selectors
+  %box-styles {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+  }
+
+  .box1 {
+    @extend %box-styles;
+    background-color: #34495E;
+    margin-bottom: 20px;
+  }
+
+  .box2 {
+    @extend %box-styles;
+    background-color: #2980B9;
+    margin-bottom: 20px;
+  }
+    // Mixins
+    @mixin text-shadow($color: #000, $offset-x: 2px, $offset-y: 2px, $blur: 2px) {
+        text-shadow: $offset-x $offset-y $blur $color;
+      }
+    
+      .header {
+        @include text-shadow($background-color, 1px, 1px, 2px);
+      }
+    // Functions
+  @function lighten-color($color, $amount) {
+    @return mix(white, $color, $amount);
+  }
+}

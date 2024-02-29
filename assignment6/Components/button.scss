@@ -1,0 +1,15 @@
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: $primary-color;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: darken($primary-color, 10%);
+}
