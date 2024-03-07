@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            margin-top: 50px;
+        }
+        h2 {
+            text-align: center;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="login-form" action="#" method="post">
+            <input type="text" name="email" id="email" placeholder="Email" required>
+            <div class="error-message" id="email-error"></div>
+            <input type="text" name="username" id="username" placeholder="Username" required>
+            <div class="error-message" id="username-error"></div>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <div class="error-message" id="password-error"></div>
+            <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required>
+            <div class="error-message" id="confirm_password-error"></div>
+            <input type="submit" value="Login" id="login-btn" disabled>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#login-form').submit(function(event) {
+                event.preventDefault();
+                var emailValid = isValidEmail($('#email').val());
+                var usernameValid = isValidUsername($('#username').val());
+                var passwordValid = isValidPassword($('#password').val());
+                var confirmPasswordValid = ($('#password').val() === $('#confirm_password').val());
+
+                if (emailValid && usernameValid && passwordValid && confirmPasswordValid) {
+                    sessionStorage.setItem('username', $('#username').val());
+                    window.location.href = 'display.html';
+                } else {
+                    alert('Please fill in all fields correctly.');
+                }
+            });
+
+            // Validation logic
+            $('#email').keyup(function() {
+                var email = $(this).val();
+                if (!isValidEmail(email)) {
+                    $('#email-error').text('Invalid email format');
+                    $('#email-error').show();
+                } else {
+                    $('#email-error').hide();
+                }
+            });
+
+            $('#username').keyup(function() {
+                var username = $(this).val();
+                if (!isValidUsername(username)) {
+                    $('#username-error').text('Username must contain only alphanumeric characters');
+                    $('#username-error').show();
+                } else {
+                    $('#username-error').hide();
+                }
+            });
+
+            $('#password').keyup(function() {
+                var password = $(this).val();
+                if (!isValidPassword(password)) {
+                    $('#password-error').text('Password must be at least 8 characters long');
+                    $('#password-error').show();
+                } else {
+                    $('#password-error').hide();
+                }
+            });
+
+            $('#confirm_password').keyup(function() {
+                var password = $('#password').val();
+                var confirm_password = $(this).val();
+                if (password !== confirm_password) {
+                    $('#confirm_password-error').text('Passwords do not match');
+                    $('#confirm_password-error').show();
+                } else {
+                    $('#confirm_password-error').hide();
+                }
+            });
+
+            // Enable login button only if all fields are valid
+            $('#login-form input').keyup(function() {
+                var emailValid = isValidEmail($('#email').val());
+                var usernameValid = isValidUsername($('#username').val());
+                var passwordValid = isValidPassword($('#password').val());
+                var confirmPasswordValid = ($('#password').val() === $('#confirm_password').val());
+
+                if (emailValid && usernameValid && passwordValid && confirmPasswordValid) {
+                    $('#login-btn').prop('disabled', false);
+                } else {
+                    $('#login-btn').prop('disabled', true);
+                }
+            });
+
+            // Email validation function
+            function isValidEmail(email) {
+                // Regular expression for northeastern email id
+                var regex = /^[a-zA-Z0-9._%+-]+@northeastern\.edu$/;
+                return regex.test(email);
+            }
+
+            // Username validation function
+            function isValidUsername(username) {
+                var regex = /^[a-zA-Z0-9]+$/;
+                return regex.test(username);
+            }
+
+            // Password validation function
+            function isValidPassword(password) {
+                return password.length >= 8;
+            }
+        });
+    </script>
+</body>
+</html>

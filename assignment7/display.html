@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            margin-top: 50px;
+        }
+        h2 {
+            text-align: center;
+        }
+        input[type="text"] {
+            width: calc(50% - 5px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .result {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+        button {
+            width: calc(25% - 5px);
+            padding: 10px;
+            margin: 10px 2.5px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .error-message {
+            color: red;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Calculator</h2>
+        <form id="calculator-form" action="#" method="post">
+            <label for="number1">Number 1:</label>
+            <input type="text" name="number1" id="number1" placeholder="Enter number 1" required>
+            <div class="error-message" id="number1-error"></div>
+            <label for="number2">Number 2:</label>
+            <input type="text" name="number2" id="number2" placeholder="Enter number 2" required>
+            <div class="error-message" id="number2-error"></div>
+            <button type="button" id="add-btn">Add</button>
+            <button type="button" id="subtract-btn">Subtract</button>
+            <button type="button" id="multiply-btn">Multiply</button>
+            <button type="button" id="divide-btn">Divide</button>
+            <div class="result" id="result"></div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Retrieve username from sessionStorage
+            var username = sessionStorage.getItem('username');
+            $('#result').text('Welcome, ' + username + '!');
+
+            // Arrow function for all operations
+            const performOperation = (operation, num1, num2) => {
+                switch (operation) {
+                    case 'add':
+                        return num1 + num2;
+                    case 'subtract':
+                        return num1 - num2;
+                    case 'multiply':
+                        return num1 * num2;
+                    case 'divide':
+                        if (num2 === 0) {
+                            return 'Infinity';
+                        }
+                        return num1 / num2;
+                    default:
+                        return NaN;
+                }
+            };
+
+            // Click event handlers for operation buttons
+            $('#add-btn').click(function() {
+                calculate('add');
+            });
+
+            $('#subtract-btn').click(function() {
+                calculate('subtract');
+            });
+
+            $('#multiply-btn').click(function() {
+                calculate('multiply');
+            });
+
+            $('#divide-btn').click(function() {
+                calculate('divide');
+            });
+
+            // Validation logic
+            $('#number1, #number2').keyup(function() {
+                var input = $(this).val();
+                if (!isValidInput(input)) {
+                    $(this).siblings('.error-message').text('Please enter a valid number');
+                    $(this).siblings('.error-message').show();
+                } else {
+                    $(this).siblings('.error-message').hide();
+                }
+            });
+
+            // Perform calculation
+            function calculate(operation) {
+                var num1 = parseFloat($('#number1').val());
+                var num2 = parseFloat($('#number2').val());
+
+                if (!isNaN(num1) && !isNaN(num2)) {
+                    var result = performOperation(operation, num1, num2);
+                    $('#result').text('Result: ' + result);
+                } else {
+                    $('#result').text('Result: NaN');
+                }
+            }
+
+            // Validation function for input fields
+            function isValidInput(input) {
+                return /^\d*\.?\d*$/.test(input);
+            }
+        });
+    </script>
+</body>
+</html>
