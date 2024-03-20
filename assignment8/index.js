@@ -60,7 +60,7 @@ app.post('/user/create', async(req, res) =>{
     res.status(200).json({message: 'Saved'});
 });
 
-app.post('/user/edit', async(req, res) =>{
+app.put('/user/edit', async(req, res) =>{
     const {username, password, email} = req.body;
     
     if(!username){
