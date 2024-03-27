@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 1000;
 mongoose.connect('mongodb://localhost:27017/myapp', {
 });
 
-const user = mongoose.model('User', {
+const User = mongoose.model('User', {
     username: String,
     password: String,
     email: String,
