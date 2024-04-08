@@ -1,0 +1,19 @@
+import axios from 'axios';
+
+export const createJob = async (jobData) => {
+  try {
+    const response = await axios.post('/create/job', jobData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getJobs = async () => {
+  try {
+    const response = await axios.get('/get/jobs');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

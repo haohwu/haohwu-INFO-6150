@@ -1,0 +1,19 @@
+import axios from 'axios';
+
+export const createUser = async (userData) => {
+  try {
+    const response = await axios.post('/user/create', userData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAllUsers = async () => {
+  try {
+    const response = await axios.get('/user/all');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
