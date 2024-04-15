@@ -25,15 +25,19 @@
         });
 
         async function fetchJobs() {
-            const response = await fetch('http://localhost:3000/jobs');
-            const jobs = await response.json();
-            const jobsList = document.getElementById('jobsList');
-            jobs.forEach(job => {
-                const item = document.createElement('li');
-                item.textContent = `${job.companyName} - ${job.jobTitle}: ${job.description} (Salary: ${job.salary})`;
-                jobsList.appendChild(item);
-            });
-        }
+    const response = await fetch('http://localhost:3000/jobs');
+    if (response.ok) {
+        const jobs = await response.json();
+        const jobsList = document.getElementById('jobsList');
+        jobs.forEach(job => {
+            const item = document.createElement('li');
+            item.textContent = `${job.companyName} - ${job.jobTitle}: ${job.description} (Salary: ${job.salary})`;
+            jobsList.appendChild(item);
+        });
+    } else {
+        alert('Failed to load jobs');
+    }
+}
 
         function logout() {
             localStorage.clear();  // Clear all local storage

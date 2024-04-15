@@ -79,6 +79,7 @@ app.post('/create/job', (req, res) => {
     const newJob = { id: jobs.length + 1, companyName, jobTitle, description, salary };
     jobs.push(newJob);
     res.status(201).json(newJob);
+    res.json(jobs);
 });
 
 app.listen(3000, () => {
