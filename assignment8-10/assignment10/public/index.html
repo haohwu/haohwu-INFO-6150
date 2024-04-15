@@ -3,15 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>React App</title>
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>Main Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .menu-container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 10px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+        }
+
+        a:hover {
+            color: #5c67f2;
+        }
+    </style>
 </head>
 <body>
-    <noscript>I need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <script src="/static/js/bundle.js"></script>
+    <div class="menu-container">
+        <h1>Welcome to the Job Portal</h1>
+        <nav>
+            <ul>
+                <li><a href="login.html">Login Page</a></li>
+                <li><a href="add-job.html">Add Job Page</a></li>
+                <li><a href="job-view.html">View Jobs Page</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Ready to navigate!');
+        });
+    </script>
 </body>
 </html>
+
 

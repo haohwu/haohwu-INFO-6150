@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Jobs</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Job Listings</h2>
+        <ul id="jobsList"></ul>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        // Check if the user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('userType')) {
+                alert('You must be logged in to view jobs.');
+                window.location.href = 'login.html'; // Redirect to login
+            } else {
+                fetchJobs();
+            }
+        });
+
+        async function fetchJobs() {
+            const response = await fetch('http://localhost:3000/jobs');
+            const jobs = await response.json();
+            const jobsList = document.getElementById('jobsList');
+            jobs.forEach(job => {
+                const item = document.createElement('li');
+                item.textContent = `${job.companyName} - ${job.jobTitle}: ${job.description} (Salary: ${job.salary})`;
+                jobsList.appendChild(item);
+            });
+        }
+
+        function logout() {
+            localStorage.clear();  // Clear all local storage
+            window.location.href = 'login.html';  // Redirect to login
+        }
+    </script>
+</body>
+</html>
+

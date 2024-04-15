@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Job</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Add Job</h2>
+        <form id="addJobForm">
+            <label for="companyName">Company Name:</label>
+            <input type="text" id="companyName" name="companyName" required>
+
+            <label for="jobTitle">Job Title:</label>
+            <input type="text" id="jobTitle" name="jobTitle" required>
+
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
+
+            <label for="salary">Salary:</label>
+            <input type="number" id="salary" name="salary" required>
+
+            <button type="submit">Add Job</button>
+        </form>
+        <button onclick="location.href='job-view.html'">View Jobs</button>
+    </div>
+
+    <button onclick="logout()">Logout</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userType = localStorage.getItem('userType');
+            if (userType !== 'admin') {
+                alert('Only admins can access this page.');
+                window.location.href = 'login.html'; 
+            }
+        });
+    
+        
+        document.getElementById('addJobForm').onsubmit = async function(e) {
+    e.preventDefault();
+
+    const jobDetails = {
+        companyName: document.getElementById('companyName').value,
+        jobTitle: document.getElementById('jobTitle').value,
+        description: document.getElementById('description').value,
+        salary: document.getElementById('salary').value
+    };
+
+    const response = await fetch('http://localhost:3000/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(jobDetails)
+    });
+
+    store.dispatch(addJob(jobDetails));
+
+    if (response.ok) {
+        alert('Job added successfully!');
+        store.dispatch({ type: 'job/add', payload: jobDetails });
+    } else {
+        const data = await response.json();
+        alert('Failed to add job: ' + data.message);
+    }
+};
+    </script>
+</body>
+</html>

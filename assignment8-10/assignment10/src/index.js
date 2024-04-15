@@ -1,32 +1,42 @@
 const express = require('express');
+const session = require('express-session');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+app.use(express.json()); 
+
+app.use(express.static('public'));
+
+app.use(session({
+    secret: 'your_secret_key', 
+    resave: false,             
+    saveUninitialized: false,  
+    cookie: { secure: true }   
+}));
+
+
+app.get('/', (req, res) => {
+    res.sendFile('index.html', { root: 'public' });
+});
 
 let jobs = [];
 let users = [];
 app.post('/register', (req, res) => {
     const { username, password, type } = req.body;
 
-    // Check if all fields are provided
     if (!username || !password || !type) {
         return res.status(400).json({ message: 'All fields are required' });
     }
-
-    // Check if user type is valid
     if (!['admin', 'employee'].includes(type)) {
         return res.status(400).json({ message: 'Invalid user type' });
     }
 
-    // Simulate checking if the user already exists
     const existingUser = users.find(u => u.username === username);
     if (existingUser) {
         return res.status(409).json({ message: 'User already exists' });
     }
 
-    // Simulate saving the user
     const newUser = { username, password, type };
     users.push(newUser);
 
@@ -40,25 +50,24 @@ app.post('/login', (req, res) => {
     const user = users.find(u => u.username === username && u.password === password);
 
     if (user) {
-        if (user.type === 'admin') {
-            res.status(200).json({ 
-                message: 'Login successful',
-                username: user.username,
-                type: user.type
-            });
-        } else {
-            // User is found but not an admin
-            res.status(401).json({ message: 'Login failed: User is not an admin' });
-        }
+        req.session.user = { username: user.username, type: user.type };
+        res.json({
+            message: 'Login successful',
+            username: user.username,
+            type: user.type
+        });
     } else {
-        // User not found or password does not match
-        res.status(401).json({ message: 'Authentication failed' });
+        // If credentials are wrong
+        res.status(401).json({ message: 'Authentication failed: Invalid username or password' });
     }
 });
 
-// Fetch jobs route
 app.get('/jobs', (req, res) => {
-    res.status(200).json(jobs);
+    if (!req.session.user) {
+        res.status(401).json({ message: 'You must be logged in to view jobs' });
+    } else {
+        res.json(jobs);
+    }
 });
 
 // Create job route
@@ -72,7 +81,6 @@ app.post('/create/job', (req, res) => {
     res.status(201).json(newJob);
 });
 
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+app.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
 });

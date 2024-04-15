@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+        <div id="navigationLinks" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const response = await fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('userType', data.type); // Store user type in localStorage
+
+                // Display navigation links
+                const linksContainer = document.getElementById('navigationLinks');
+                linksContainer.innerHTML = `<button onclick="window.location='job-view.html'">View Jobs</button>`;
+
+                if (data.type === 'admin') {
+                    linksContainer.innerHTML += `<button onclick="window.location='add-job.html'" style="margin-left: 10px;">Add Job</button>`;
+                }
+
+                // Add a logout button
+                linksContainer.innerHTML += `<button onclick="logout()" style="margin-left: 10px;">Logout</button>`;
+                
+                alert('Login successful!');
+            } else {
+                alert('Login failed: ' + (await response.json()).message);
+            }
+        });
+
+        function logout() {
+            // Clear user type from local storage
+            localStorage.removeItem('userType');
+            // Optionally refresh or redirect to the login page
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
+
+
