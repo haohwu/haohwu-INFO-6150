@@ -1,47 +1,25 @@
-import React, {userState} from 'react';
-import {userHistory} from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { loginUser } from '../assignment9/api/';
 
-const Login = () => {
-    const [username, setUsername] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [error, setError] = React.useState('');
-    const histoty = userHistory();
-
-    const handelLogin = async () => {
+function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const handleLogin = async () => {
         try {
-            const response = await axios.post('/login', {
-                username,
-                password
-            });
-            console.log(response.data);
+            const response = await loginUser(email, password);
+            console.log('Login Successful', response.data);
         } catch (error) {
-            console.error("Login error: " + error.response.data.errorMessage);
+            console.error('Login Failed', error);
         }
     };
+
     return (
         <div>
-            <h1>Login</h1>
-            <form>
-                <label>Username</label>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={e => setUsername(e.target.value)}
-                />
-                <label>Password</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                />
-                <button onClick={handelLogin}>Login</button>
-                {error && <p>{error}</p>}
-            </form>
-            <button onClick={() => histoty.push('/job')}>Job</button>
-            <button onClick={() => histoty.push('/job/listen')}>Job Listen</button>
-            <button onClick={() => histoty.push('/company')}>Company</button>
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+            <button onClick={handleLogin}>Login</button>
         </div>
-        )
+    );
 }
+
 export default Login;

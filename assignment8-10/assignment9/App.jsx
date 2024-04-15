@@ -1,19 +1,22 @@
-import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Login from './Login';
-import Job from './Job';
-import JobListen from './JobListen';
-import Company from './Company';
+import Home from './assignment9/Home';
+import about from './assignment9/about';
+import JobListen from './assignment9/JobListen';
+import contact from './assignment9/contact';
+import Company from './assignment9/Company';
+import Login from './assignment9/Login';
 
-
-function App(){
+function App() {
     return (
         <Router>
             <Switch>
-                <Route exact path="/" component={Login} />
-                <Route exact path="/job" component={Job} />
-                <Route exact path="/job/listen" component={JobListen} />
-                <Route exact path="/company" component={Company} />
+                <Route path="/login" component={Login} />
+                <Route path="/home" component={Home} />
+                <Route path="/about" component={about} />
+                <Route path="/jobs" component={JobListen} />
+                <Route path="/contact" component={contact} />
+                <Route path="/companies" component={Company} />
+                <Route path="/" exact component={Home} />
             </Switch>
         </Router>
     );
