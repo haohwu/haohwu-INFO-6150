@@ -4,11 +4,30 @@ import { setUser } from './userSlice'
 import { Button, TextField, CircularProgress, Alert, Container, Typography } from '@mui/material';
 
 function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const dispatch = useDispatch();
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [type, setType] = useState('employee');  // default to 'employee'
+
+  const handleRegister = async () => {
+    setLoading(true);
+    setError('');
+    try {
+        const response = await fetch('http://localhost:3000/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password, type })
+        });
+        const data = await response.json();
+        if (response.ok) {
+            // Maybe auto-login or confirm registration
+        } else {
+            throw new Error(data.message);
+        }
+    } catch (err) {
+        setError(err.message);
+    } finally {
+        setLoading(false);
+    }
+  };
 
   const handleLogin = async () => {
     setLoading(true);
@@ -22,15 +41,16 @@ function LoginPage() {
         const data = await response.json();
         if (response.ok) {
             dispatch(setUser({ username: data.username, type: data.type }));
+            // Optionally redirect or perform further actions
         } else {
-            throw new Error(data.message || 'Failed to login');
+            throw new Error(data.message);
         }
     } catch (err) {
         setError(err.message);
     } finally {
         setLoading(false);
     }
-  };
+};
 
   return (
     <Container maxWidth="xs">
