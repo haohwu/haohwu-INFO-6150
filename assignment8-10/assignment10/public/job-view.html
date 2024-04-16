@@ -14,36 +14,47 @@
     </div>
 
     <script>
-        // Check if the user is logged in
         document.addEventListener('DOMContentLoaded', function() {
             if (!localStorage.getItem('userType')) {
                 alert('You must be logged in to view jobs.');
-                window.location.href = 'login.html'; // Redirect to login
+                window.location.href = 'login.html'; 
             } else {
-                fetchJobs();
+                fetchJobs(); 
             }
         });
-
+        
         async function fetchJobs() {
-    const response = await fetch('http://localhost:3000/jobs');
-    if (response.ok) {
-        const jobs = await response.json();
-        const jobsList = document.getElementById('jobsList');
-        jobs.forEach(job => {
-            const item = document.createElement('li');
-            item.textContent = `${job.companyName} - ${job.jobTitle}: ${job.description} (Salary: ${job.salary})`;
-            jobsList.appendChild(item);
-        });
-    } else {
-        alert('Failed to load jobs');
+    const response = await fetch('/jobs', { credentials: 'include' });
+    if (!response.ok) {
+        console.error('Failed to fetch jobs:', response.statusText);
+        alert('Failed to fetch jobs: ' + response.statusText);
+        return;
     }
+    const jobs = await response.json();
+    displayJobs(jobs);
 }
 
+function displayJobs(jobs) {
+    const jobsList = document.getElementById('jobsList');
+    jobsList.innerHTML = ''; // Clear current list
+    jobs.forEach(job => {
+        const item = document.createElement('li');
+        item.textContent = `${job.companyName} - ${job.jobTitle}: ${job.description} (Salary: ${job.salary})`;
+        jobsList.appendChild(item);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', fetchJobs);
+
+        
         function logout() {
-            localStorage.clear();  // Clear all local storage
-            window.location.href = 'login.html';  // Redirect to login
+            localStorage.clear();
+            window.location.href = 'login.html';
         }
-    </script>
+        </script>
+        
 </body>
 </html>
+
+
 

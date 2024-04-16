@@ -37,11 +37,9 @@
                 window.location.href = 'login.html'; 
             }
         });
-    
         
-        document.getElementById('addJobForm').onsubmit = async function(e) {
+        document.getElementById('addJobForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-
     const jobDetails = {
         companyName: document.getElementById('companyName').value,
         jobTitle: document.getElementById('jobTitle').value,
@@ -49,22 +47,27 @@
         salary: document.getElementById('salary').value
     };
 
-    const response = await fetch('http://localhost:3000/jobs', {
+    const response = await fetch('/create/job', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(jobDetails)
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(jobDetails),
+        credentials: 'include'
     });
-
-    store.dispatch(addJob(jobDetails));
 
     if (response.ok) {
         alert('Job added successfully!');
-        store.dispatch({ type: 'job/add', payload: jobDetails });
     } else {
-        const data = await response.json();
-        alert('Failed to add job: ' + data.message);
+        alert('Failed to add job. ' + await response.text());
     }
-};
-    </script>
+});
+
+        
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+        </script>
+        
 </body>
 </html>
+
